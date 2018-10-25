@@ -60,10 +60,6 @@ namespace JogoGourmet
 
             }
            
-            
-            Sessao.RespostaAtual = string.Empty;
-            Sessao.RespostaAnterior = string.Empty;
-
             VoltaAoInicio();
         }
 

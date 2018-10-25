@@ -24,6 +24,7 @@ namespace JogoGourmet
 
         private void btnGravar_Click(object sender, EventArgs e)
         {
+            Sessao.RespostaAnterior = Sessao.RespostaAtual;
             Sessao.RespostaAtual = txtResposta.Text;
             TipoPrato tipoPrato = new TipoPrato() { Nome = txtResposta.Text } ;
 

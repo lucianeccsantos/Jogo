@@ -16,19 +16,29 @@ namespace JogoGourmet
     {
         string pratoMassa = "O prato que você pensou é massa?";
         string oPratoE = "O prato que você pensou é {0}?";
-       
+
         string acertei = "Acertei denovo!";
 
         int nivel = 0;
-        
-        Boolean inicio = true;
+        bool inicio = true;
+
 
         public int indiceDaLista { get; private set; }
 
         public Perguntas()
         {
             InitializeComponent();
+            inicio = SetarVariavelInicio();
             IniciarPerguntas();
+        }
+
+        public bool SetarVariavelInicio()
+        {
+            return (Sessao.LstAdjetivos.Count == 0 &&
+                      Sessao.LstAlimentos.Count == 0 &&
+                      Sessao.LtTipoPratos.Count == 0 &&
+                      string.IsNullOrEmpty(Sessao.RespostaAnterior)
+                      && string.IsNullOrEmpty(Sessao.RespostaAtual));
         }
 
         public void IniciarPerguntas()
@@ -39,19 +49,24 @@ namespace JogoGourmet
         }
 
         private void btnSim_Click(object sender, EventArgs e)
-        {            
+        {
+            if (inicio && nivel == 1)
+            {
+                BuscaRespostas(true);
+                return;
+            }
             if (inicio && nivel == 2)
             {
                 Sessao.RespostaAtual = "lasanha";
                 Sessao.LstAlimentos.Add(new Alimento() { Nome = Sessao.RespostaAtual });
                 inicio = false;
-                    nivel = -1;
+                nivel = -1;
                 BuscaRespostas(true);
                 return;
             }
             if (nivel == 1)
             {
-               
+
                 Sessao.RespostaAtual = "bolo de chocolate";
                 Sessao.LtTipoPratos.Add(new TipoPrato() { Nome = Sessao.RespostaAtual });
                 nivel = -1;
@@ -60,13 +75,12 @@ namespace JogoGourmet
             }
             if (nivel == 2)
             {
-                nivel++;
+                Sessao.RespostaAnterior = Sessao.RespostaAtual;
+                nivel = 4;
                 BuscaRespostas(true);
                 Finaliza();
             }
-            nivel++;
-            BuscaRespostas(true);
-            
+
         }
 
         private void btnNao_Click(object sender, EventArgs e)
@@ -74,9 +88,23 @@ namespace JogoGourmet
             if (inicio && nivel == 1)
             {
                 BuscaRespostas(false);
-                /*Sessao.RespostaAtual = "bolo de chocolate";
-                Sessao.LstAlimentos.Add(new Alimento() { Nome = Sessao.RespostaAtual });*/
                 inicio = false;
+                return;
+            }
+            if (nivel == 2)
+            {
+                Sessao.RespostaAnterior = Sessao.RespostaAtual;
+                nivel = 4;
+                BuscaRespostas(true);
+                //Finaliza();
+            }
+            if (nivel == 3)
+            {
+                Sessao.RespostaAtual = "bolo de chocolate";
+                Sessao.LstAlimentos.Add(new Alimento() { Nome = Sessao.RespostaAtual });
+                BuscaRespostas(false);
+                inicio = false;
+                return;
             }
             else
             {
@@ -84,8 +112,11 @@ namespace JogoGourmet
                 BuscaRespostas(false);
             }
         }
-            private void BuscaRespostas(bool valorBotao) {
-           
+
+        
+        private void BuscaRespostas(bool valorBotao)
+        {
+
             switch (nivel)
             {
                 case -1:
@@ -93,20 +124,23 @@ namespace JogoGourmet
                     break;
                 case 1:
                     PerguntaTipoAlimento(valorBotao);
-                    break;                
+                    break;
                 case 2:
-                        PerguntaTipoAlimento(valorBotao);
+                    PerguntaTipoAlimento(valorBotao);
                     break;
                 case 3:
-                        PerguntaAdjetivo(valorBotao);
+                    PerguntaAdjetivo(valorBotao);
+                    break;
+                case 4:
+                    BuscarTipoPratoPorAdjetivo();
                     break;
                 default:
                     JogoGourmet jogo = new JogoGourmet();
                     jogo.Show();
                     break;
-            } 
-                        
-           
+            }
+
+
         }
 
         private void Finaliza()
@@ -118,22 +152,33 @@ namespace JogoGourmet
             nivel = 0;
         }
 
+        private string BuscarTipoPratoPorAdjetivo()
+        {
+            return TipoPrato.BuscarTipoPratoPorAdjetivo(Sessao.RespostaAnterior);
+        }
 
+        private void PerguntaTipoAlimento(bool afirmacao)
+        {
+            Classes.TipoPrato tipoPrato = new Classes.TipoPrato();   
 
-        private void PerguntaTipoAlimento(bool afirmacao) {
-            Classes.TipoPrato tipoPrato = new Classes.TipoPrato();
+           if (!afirmacao && TipoPrato.ValidaSeTemAdjetivosPrato())
+            {
+                string adjetivo = TipoPrato.BuscarAdjetivoPratoAleatorio(nivel);
 
-            if (inicio)
+                lblPergunta.Text = string.Format(oPratoE, adjetivo);
+                Sessao.RespostaAtual = adjetivo;
+                nivel = 2;
+            }
+            else if (inicio)
             {
                 tipoPrato.Nome = afirmacao ? "lasanha" : "bolo de chocolate";
-               
 
                 lblPergunta.Text = string.Format(oPratoE, tipoPrato.Nome);
-                nivel = 1;
+                nivel = (afirmacao) ? 2 : 3;
             }
             else
             {
-                if (Sessao.LtTipoPratos.Count() == 0)
+                if (Sessao.LstAdjetivos.Count() == 0)
                 {
                     Sessao.RespostaAtual = "bolo de chocolate";
                     this.Desisto();
@@ -148,14 +193,14 @@ namespace JogoGourmet
                 {
                     lblPergunta.Text = string.Format(oPratoE, Sessao.LtTipoPratos.First().Nome);
                     nivel++;
-                    
+
                 }
                 Sessao.RespostaAtual = Sessao.LtTipoPratos.First().Nome;
 
                 //nivel = 2;
 
             }
-           
+
         }
 
         private void PerguntaAdjetivo(bool afirmacao)
@@ -164,8 +209,8 @@ namespace JogoGourmet
             if (indiceDaLista > 0)
             {
 
-                    TipoPrato tipo = Sessao.LtTipoPratos.Find(d => d.Nome.Equals(Sessao.RespostaAtual));
-                   // TipoPrato.ValidarTipoPratoAdjetivo(tipo,)
+                TipoPrato tipo = Sessao.LtTipoPratos.Find(d => d.Nome.Equals(Sessao.RespostaAtual));
+                // TipoPrato.ValidarTipoPratoAdjetivo(tipo,)
             }
             else
             {
@@ -173,18 +218,15 @@ namespace JogoGourmet
                     this.Finaliza();
                 else
                     this.Desisto();
-                
+
             }
 
-            
-            
-              
+
         }
 
         private void Desisto()
         {
             Sessao.RespostaAnterior = Sessao.RespostaAtual;
-            Sessao.RespostaAtual = string.Empty;
             Desisto desistir = new Desisto();
             desistir.Show();
         }
@@ -194,6 +236,6 @@ namespace JogoGourmet
             JogoGourmet jogo = new JogoGourmet();
             jogo.Show();
         }
-       
+
     }
 }

@@ -11,8 +11,8 @@ namespace JogoGourmet.Classes.Util
         enum NivelPergunta
         {
             TipoPrato = 1,
-            Alimento = 2,
-            Adjetivo = 3
+            Adjetivo= 2,
+            Alimento = 3
         }
 
         enum Resposta
