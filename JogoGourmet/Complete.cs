@@ -25,7 +25,7 @@ namespace JogoGourmet
         private void PerguntaAdjetivoPrato()
         {
             lblPergunta.Text = string.Format(adjetivoPrato, Sessao.RespostaAtual, Sessao.RespostaAnterior);
-            Sessao.RespostaAnterior = Sessao.RespostaAtual;
+            Sessao.RespostaAnteriorRecebeAtual();
         }
 
 

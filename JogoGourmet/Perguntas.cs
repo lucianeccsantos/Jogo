@@ -35,7 +35,6 @@ namespace JogoGourmet
         public bool SetarVariavelInicio()
         {
             return (Sessao.LstAdjetivos.Count == 0 &&
-                      Sessao.LstAlimentos.Count == 0 &&
                       Sessao.LtTipoPratos.Count == 0 &&
                       string.IsNullOrEmpty(Sessao.RespostaAnterior)
                       && string.IsNullOrEmpty(Sessao.RespostaAtual));
@@ -117,7 +116,7 @@ namespace JogoGourmet
             }
             else
             {
-                Sessao.RespostaAnterior = Sessao.RespostaAtual;
+                Sessao.RespostaAnteriorRecebeAtual();
                 nivel = 4;
                 BuscaRespostas(true);
                 Finaliza();
@@ -142,7 +141,7 @@ namespace JogoGourmet
                 return;
             }
 
-            Sessao.RespostaAnterior = Sessao.RespostaAtual;
+            Sessao.RespostaAnteriorRecebeAtual();
             BuscaRespostas(false);
             nivel = 4;
             return;
@@ -159,7 +158,7 @@ namespace JogoGourmet
         private void PerguntasNaoNivel4()
         {
 
-            Sessao.RespostaAnterior = Sessao.RespostaAtual;
+            Sessao.RespostaAnteriorRecebeAtual();
             BuscaRespostas(false);
 
         }
@@ -200,13 +199,13 @@ namespace JogoGourmet
             {
                 string adj = TipoPrato.BuscarAdjetivoPorTipoPrato(Sessao.RespostaAnterior);
                 lblPergunta.Text = string.Format(oPratoE, adj);
-                Sessao.RespostaAnterior = Sessao.RespostaAtual;
+                Sessao.RespostaAnteriorRecebeAtual();
                 nivel = 0;
             }
             else
             {
                 lblPergunta.Text = string.Format(oPratoE, tipoPrato);
-                Sessao.RespostaAnterior = Sessao.RespostaAtual;
+                Sessao.RespostaAnteriorRecebeAtual();
                 nivel = 4;
             }
 
@@ -262,7 +261,7 @@ namespace JogoGourmet
                     nivel++;
 
                 }
-                Sessao.RespostaAnterior = Sessao.RespostaAtual;
+                Sessao.RespostaAnteriorRecebeAtual();
 
             }
 
@@ -288,7 +287,7 @@ namespace JogoGourmet
 
         private void Desisto()
         {
-            Sessao.RespostaAnterior = Sessao.RespostaAtual;
+            Sessao.RespostaAnteriorRecebeAtual();
             Desisto desistir = new Desisto();
             desistir.Show();
         }

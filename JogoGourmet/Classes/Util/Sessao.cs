@@ -13,8 +13,6 @@ namespace JogoGourmet.Classes.Util
 
         public static List<Adjetivo> LstAdjetivos { get; set; } = new List<Adjetivo>();
 
-        public static List<Alimento> LstAlimentos { get; set; } = new List<Alimento>();
-
         public static string RespostaAnterior
         {
             get; set;
@@ -22,6 +20,11 @@ namespace JogoGourmet.Classes.Util
         public static string RespostaAtual
         {
             get; set;
+        }
+
+        public static void RespostaAnteriorRecebeAtual()
+        {
+            Sessao.RespostaAnterior = Sessao.RespostaAtual;
         }
     }
 }

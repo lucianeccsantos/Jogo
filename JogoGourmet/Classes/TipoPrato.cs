@@ -11,7 +11,6 @@ namespace JogoGourmet.Classes
     {
         public string Nome { get; set; }
         public List<Adjetivo> lstAdjetivo { get; set; } = new List<Adjetivo>();
-        public Alimento Alimento { get; set; }
 
         public TipoPrato() { }
 
