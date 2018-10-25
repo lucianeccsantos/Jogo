@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Adjetivo.cs" />
-    <Compile Include="Classes\Alimento.cs" />
     <Compile Include="Classes\Util\Enumeradores.cs" />
     <Compile Include="Classes\Util\Sessao.cs" />
     <Compile Include="Classes\TipoPrato.cs" />

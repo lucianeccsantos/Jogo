@@ -25,8 +25,13 @@ namespace JogoGourmet
         private void PerguntaAdjetivoPrato()
         {
             lblPergunta.Text = string.Format(adjetivoPrato, Sessao.RespostaAtual, Sessao.RespostaAnterior);
-
             Sessao.RespostaAnterior = Sessao.RespostaAtual;
+        }
+
+
+        private void btnGravar_Click(object sender, EventArgs e)
+        {
+            GravarResposta();
         }
 
         private void GravarResposta()
@@ -65,13 +70,11 @@ namespace JogoGourmet
 
         private void VoltaAoInicio()
         {
+            Sessao.RespostaAnterior = string.Empty;
+            Sessao.RespostaAtual = string.Empty;
             JogoGourmet jogo = new JogoGourmet();
             jogo.Show();
         }
 
-        private void btnGravar_Click(object sender, EventArgs e)
-        {
-            GravarResposta();
-        }
     }
 }

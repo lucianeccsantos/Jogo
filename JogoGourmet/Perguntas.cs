@@ -79,13 +79,19 @@ namespace JogoGourmet
                 nivel = 4;
                 BuscaRespostas(true);
                 Finaliza();
+                return;
             }
+            if (nivel == 4)
+            {
+                Desisto();
+            }
+            Finaliza();
 
         }
 
         private void btnNao_Click(object sender, EventArgs e)
         {
-            if (inicio && nivel == 1)
+            if (inicio && (nivel == 1 || nivel == 2))
             {
                 BuscaRespostas(false);
                 inicio = false;
@@ -94,8 +100,9 @@ namespace JogoGourmet
             if (nivel == 2)
             {
                 Sessao.RespostaAnterior = Sessao.RespostaAtual;
-                nivel = 4;
                 BuscaRespostas(true);
+                nivel = 4;
+                return;
                 //Finaliza();
             }
             if (nivel == 3)
@@ -106,6 +113,17 @@ namespace JogoGourmet
                 inicio = false;
                 return;
             }
+            if (nivel == 4)
+            {              
+                BuscaRespostas(false);
+                return;
+            }
+            if (nivel == 4 || nivel == 0)
+            {
+                Sessao.RespostaAnterior = Sessao.RespostaAtual;
+                BuscaRespostas(false);
+                return;
+            }
             else
             {
                 nivel++;
@@ -113,7 +131,7 @@ namespace JogoGourmet
             }
         }
 
-        
+
         private void BuscaRespostas(bool valorBotao)
         {
 
@@ -122,9 +140,10 @@ namespace JogoGourmet
                 case -1:
                     Finaliza();
                     break;
-                case 1:
-                    PerguntaTipoAlimento(valorBotao);
+                case 0:
+                    Desisto();
                     break;
+                case 1:
                 case 2:
                     PerguntaTipoAlimento(valorBotao);
                     break;
@@ -140,28 +159,34 @@ namespace JogoGourmet
                     break;
             }
 
-
         }
+        
 
-        private void Finaliza()
+        private void BuscarTipoPratoPorAdjetivo()
         {
-            lblPergunta.Text = acertei;
-            btnNao.Visible = false;
-            btnSim.Visible = false;
-            btnOK.Visible = true;
-            nivel = 0;
-        }
+            string tipoPrato = TipoPrato.BuscarTipoPratoPorAdjetivo(Sessao.RespostaAnterior);
+            
+            if (string.IsNullOrEmpty(tipoPrato))
+            {
+                string adj = TipoPrato.BuscarAdjetivoPorTipoPrato(Sessao.RespostaAnterior);
+                lblPergunta.Text = string.Format(oPratoE, adj);
+                Sessao.RespostaAnterior = Sessao.RespostaAtual;
+                nivel = 0;
+            }
+            else
+            {
+                lblPergunta.Text = string.Format(oPratoE, tipoPrato);
+                Sessao.RespostaAnterior = Sessao.RespostaAtual;
+                nivel = 4;
+            }
 
-        private string BuscarTipoPratoPorAdjetivo()
-        {
-            return TipoPrato.BuscarTipoPratoPorAdjetivo(Sessao.RespostaAnterior);
         }
 
         private void PerguntaTipoAlimento(bool afirmacao)
         {
-            Classes.TipoPrato tipoPrato = new Classes.TipoPrato();   
+            Classes.TipoPrato tipoPrato = new Classes.TipoPrato();
 
-           if (!afirmacao && TipoPrato.ValidaSeTemAdjetivosPrato())
+            if (!afirmacao && TipoPrato.ValidaSeTemAdjetivosPrato())
             {
                 string adjetivo = TipoPrato.BuscarAdjetivoPratoAleatorio(nivel);
 
@@ -186,7 +211,18 @@ namespace JogoGourmet
                 }
                 if (nivel == 2)
                 {
-                    lblPergunta.Text = string.Format(oPratoE, Sessao.LstAdjetivos.First().Nome);
+                    if (Sessao.LstAdjetivos.Count() > 1)
+                    {
+                        int hash = Sessao.LstAdjetivos.FindIndex(d => d.Nome.Equals(Sessao.RespostaAnterior)).GetHashCode();
+                        int index = Sessao.LstAdjetivos.Count() > hash ? hash-- : hash++;
+                        string pergunta = Sessao.LstAdjetivos.ElementAtOrDefault(index).Nome;
+                        lblPergunta.Text = string.Format(oPratoE, pergunta);
+                    }
+                    else
+                    {
+                        Desisto();
+                    }
+
                     nivel--;
                 }
                 else
@@ -195,10 +231,8 @@ namespace JogoGourmet
                     nivel++;
 
                 }
-                Sessao.RespostaAtual = Sessao.LtTipoPratos.First().Nome;
-
-                //nivel = 2;
-
+                Sessao.RespostaAnterior = Sessao.RespostaAtual;
+                
             }
 
         }
@@ -208,9 +242,8 @@ namespace JogoGourmet
             indiceDaLista = Sessao.LtTipoPratos.FindIndex(d => d.lstAdjetivo.Count() > 0);
             if (indiceDaLista > 0)
             {
-
                 TipoPrato tipo = Sessao.LtTipoPratos.Find(d => d.Nome.Equals(Sessao.RespostaAtual));
-                // TipoPrato.ValidarTipoPratoAdjetivo(tipo,)
+               
             }
             else
             {
@@ -220,8 +253,6 @@ namespace JogoGourmet
                     this.Desisto();
 
             }
-
-
         }
 
         private void Desisto()
@@ -229,6 +260,14 @@ namespace JogoGourmet
             Sessao.RespostaAnterior = Sessao.RespostaAtual;
             Desisto desistir = new Desisto();
             desistir.Show();
+        }
+        private void Finaliza()
+        {
+            lblPergunta.Text = acertei;
+            btnNao.Visible = false;
+            btnSim.Visible = false;
+            btnOK.Visible = true;
+            nivel = 0;
         }
 
         private void btnOK_Click(object sender, EventArgs e)

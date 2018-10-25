@@ -35,6 +35,7 @@ namespace JogoGourmet.Classes
                                      .ToList()
                                      .Count() > 0;
         }
+
         public static string BuscarAdjetivoPratoAleatorio(int nivel)
         {
             switch (nivel)
@@ -46,15 +47,23 @@ namespace JogoGourmet.Classes
                     
                 default:
                     return Sessao.LtTipoPratos.Where(d => d.lstAdjetivo != null)
-                                              .ElementAtOrDefault(new System.Random().Next() % Sessao.LtTipoPratos.Count()).Nome;
-                    
+                                              .ElementAtOrDefault(new System.Random().Next() % Sessao.LstAdjetivos.Count())
+                                              .lstAdjetivo.LastOrDefault().Nome;
+
             }
 
         }
 
         public static  string BuscarTipoPratoPorAdjetivo(string adjetivo)
         {
-            return Sessao.LtTipoPratos.Where(d => d.lstAdjetivo.Exists(e => e.Nome.Equals(adjetivo))).FirstOrDefault().Nome;
+           TipoPrato tipoP = Sessao.LtTipoPratos.Where(d => d.lstAdjetivo.Exists(e => e.Nome.Equals(adjetivo))).FirstOrDefault();
+            return (tipoP != null) ? tipoP.Nome : string.Empty;
+        }
+
+        public static string BuscarAdjetivoPorTipoPrato(string tipoPrato)
+        {
+            Adjetivo adj =  Sessao.LtTipoPratos.Where(d => d.Nome.Equals(tipoPrato)).FirstOrDefault().lstAdjetivo.FirstOrDefault();
+            return (adj != null) ? adj.Nome : string.Empty;
         }
 
     }
