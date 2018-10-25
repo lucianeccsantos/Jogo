@@ -8,25 +8,20 @@ namespace JogoGourmet.Classes.Util
 {
     public static class Sessao
     {
-        
-        public static List<TipoPrato> lstTipoPratos {
+
+        public static List<TipoPrato> LtTipoPratos { get; set; } = new List<TipoPrato>();
+
+        public static List<Adjetivo> LstAdjetivos { get; set; } = new List<Adjetivo>();
+
+        public static List<Alimento> LstAlimentos { get; set; } = new List<Alimento>();
+
+        public static string RespostaAnterior
+        {
             get; set;
-           // get { return Sessao.lstTipoPratos; }
-           // set { Sessao.lstTipoPratos = value; }
         }
-
-        public static List<Adjetivo> lstAdjetivos {
+        public static string RespostaAtual
+        {
             get; set;
-            // get { return Sessao.lstAdjetivos; }
-            // set { Sessao.lstAdjetivos = value; }
-
         }
-
-        public static List<Alimento> lstAlimentos{
-            get; set;
-            // get { return Sessao.lstAlimentos; }
-            // set { Sessao.lstAlimentos = value; }
-        }
-
     }
 }
