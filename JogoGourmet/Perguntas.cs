@@ -333,7 +333,7 @@ namespace JogoGourmet
                     Finaliza();
                     break;
             }
-        }]
+        }
 
         #endregion
 
