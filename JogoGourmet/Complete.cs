@@ -16,22 +16,20 @@ namespace JogoGourmet
 
         string adjetivoPrato = "{0} é _____ mas o {1} não.";
 
+        #region Construtor
         public Complete()
         {
             InitializeComponent();
             PerguntaAdjetivoPrato();
         }
+        #endregion
 
+        #region Metodos
         private void PerguntaAdjetivoPrato()
         {
-            lblPergunta.Text = string.Format(adjetivoPrato, Sessao.RespostaAtual, Sessao.RespostaAnterior);
+            string tipoP = TipoPrato.BuscarTipoPratoPorAdjetivo(Sessao.RespostaAnterior);
+            lblPergunta.Text = string.Format(adjetivoPrato, Sessao.RespostaAtual, !string.IsNullOrEmpty(tipoP) ? tipoP : Sessao.RespostaAnterior);
             Sessao.RespostaAnteriorRecebeAtual();
-        }
-
-
-        private void btnGravar_Click(object sender, EventArgs e)
-        {
-            GravarResposta();
         }
 
         private void GravarResposta()
@@ -40,12 +38,12 @@ namespace JogoGourmet
 
             List<Adjetivo> lstA = new List<Adjetivo>();
 
-            if (!string.IsNullOrEmpty(Sessao.RespostaAnterior ))
+            if (!string.IsNullOrEmpty(Sessao.RespostaAnterior))
             {
                 Adjetivo adj = new Adjetivo()
-                 {
-                     Nome = Sessao.RespostaAtual
-                 };
+                {
+                    Nome = Sessao.RespostaAtual
+                };
                 Sessao.LtTipoPratos.First(d => d.Nome.Equals(Sessao.RespostaAnterior)).lstAdjetivo.Add(adj);
                 Sessao.LstAdjetivos.Add(adj);
             }
@@ -64,7 +62,7 @@ namespace JogoGourmet
                 Sessao.LstAdjetivos = lstA;
 
             }
-           
+
             VoltaAoInicio();
         }
 
@@ -74,7 +72,27 @@ namespace JogoGourmet
             Sessao.RespostaAtual = string.Empty;
             JogoGourmet jogo = new JogoGourmet();
             jogo.Show();
+            this.Hide();
+        }
+        #endregion
+
+        #region Eventos
+
+        private void btnGravar_Click(object sender, EventArgs e)
+        {
+            GravarResposta();
         }
 
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+        }
+
+        private void txtResposta_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+                btnGravar_Click(sender, e);
+        }
+        #endregion
     }
 }

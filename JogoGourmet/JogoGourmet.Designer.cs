@@ -63,6 +63,7 @@
             this.Text = "Jogo Gourmet";
             this.ResumeLayout(false);
             this.PerformLayout();
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 
         }
 

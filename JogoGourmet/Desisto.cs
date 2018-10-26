@@ -16,12 +16,15 @@ namespace JogoGourmet
     {
         string qualPratoPensou = "Qual prato você pensou?";
 
+        #region Construtor
         public Desisto()
         {
             InitializeComponent();
             lblPergunta.Text = qualPratoPensou;
         }
+        #endregion
 
+        #region Eventos
         private void btnGravar_Click(object sender, EventArgs e)
         {
             Sessao.RespostaAnteriorRecebeAtual();
@@ -33,10 +36,20 @@ namespace JogoGourmet
 
             Complete complete = new Complete();
             complete.Show();
-
+            this.Hide();
           
         }
-
         
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+        }
+
+        private void txtResposta_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+                btnGravar_Click(sender, e);
+        }
+        #endregion
     }
 }

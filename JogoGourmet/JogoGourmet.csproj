@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icone.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,9 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Adjetivo.cs" />
-    <Compile Include="Classes\Util\Enumeradores.cs" />
     <Compile Include="Classes\Util\Sessao.cs" />
     <Compile Include="Classes\TipoPrato.cs" />
+    <Compile Include="Classes\Validacao\ValidaTipoPrato.cs" />
     <Compile Include="Desisto.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +112,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icone.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -38,8 +38,9 @@
             // 
             this.txtResposta.Location = new System.Drawing.Point(60, 40);
             this.txtResposta.Name = "txtResposta";
-            this.txtResposta.Size = new System.Drawing.Size(100, 20);
+            this.txtResposta.Size = new System.Drawing.Size(287, 20);
             this.txtResposta.TabIndex = 11;
+            this.txtResposta.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtResposta_KeyPress);
             // 
             // btnCancelar
             // 
@@ -51,6 +52,7 @@
             this.btnCancelar.Tag = "0";
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // btnGravar
             // 
@@ -84,6 +86,8 @@
             this.Controls.Add(this.btnGravar);
             this.Controls.Add(this.lblPergunta);
             this.Name = "Complete";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Complete";
             this.ResumeLayout(false);
             this.PerformLayout();
 

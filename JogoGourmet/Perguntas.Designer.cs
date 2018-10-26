@@ -31,7 +31,6 @@
             this.lblPergunta = new System.Windows.Forms.Label();
             this.btnSim = new System.Windows.Forms.Button();
             this.btnNao = new System.Windows.Forms.Button();
-            this.btnOK = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblPergunta
@@ -68,29 +67,16 @@
             this.btnNao.UseVisualStyleBackColor = true;
             this.btnNao.Click += new System.EventHandler(this.btnNao_Click);
             // 
-            // btnOK
-            // 
-            this.btnOK.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOK.Location = new System.Drawing.Point(118, 81);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 3;
-            this.btnOK.Tag = "0";
-            this.btnOK.Text = "OK";
-            this.btnOK.UseVisualStyleBackColor = true;
-            this.btnOK.Visible = false;
-            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
-            // 
             // Perguntas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(404, 134);
-            this.Controls.Add(this.btnOK);
             this.Controls.Add(this.btnNao);
             this.Controls.Add(this.btnSim);
             this.Controls.Add(this.lblPergunta);
             this.Name = "Perguntas";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Confirm";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -102,6 +88,5 @@
         private System.Windows.Forms.Label lblPergunta;
         private System.Windows.Forms.Button btnSim;
         private System.Windows.Forms.Button btnNao;
-        private System.Windows.Forms.Button btnOK;
     }
 }

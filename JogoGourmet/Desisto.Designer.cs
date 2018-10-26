@@ -44,6 +44,7 @@
             this.btnCancelar.Tag = "0";
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // btnGravar
             // 
@@ -72,8 +73,9 @@
             // 
             this.txtResposta.Location = new System.Drawing.Point(60, 46);
             this.txtResposta.Name = "txtResposta";
-            this.txtResposta.Size = new System.Drawing.Size(202, 20);
+            this.txtResposta.Size = new System.Drawing.Size(287, 20);
             this.txtResposta.TabIndex = 7;
+            this.txtResposta.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtResposta_KeyPress);
             // 
             // Desisto
             // 
@@ -85,10 +87,11 @@
             this.Controls.Add(this.btnGravar);
             this.Controls.Add(this.lblPergunta);
             this.Name = "Desisto";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Desisto";
             this.ResumeLayout(false);
             this.PerformLayout();
-
+            this.ActiveControl = this.txtResposta;
         }
 
         #endregion
